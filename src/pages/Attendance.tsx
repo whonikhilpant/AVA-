@@ -1,44 +1,48 @@
 import React, { useState } from 'react';
 import { Calendar as CalendarIcon, Clock, CheckCircle, XCircle, Users } from 'lucide-react';
 import Calendar from '../components/Attendance/Calendar';
-import { format } from 'date-fns';
+import { format, subDays } from 'date-fns';
 
 const Attendance: React.FC = () => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(new Date('2025-06-30'));
 
-  // Mock attendance data for the current month
+  // Mock attendance data based on user request for June 2025
   const mockAttendanceData: { [key: string]: 'present' | 'absent' | 'late' | 'half-day' } = {
-    '2024-12-01': 'present',
-    '2024-12-02': 'present',
-    '2024-12-03': 'late',
-    '2024-12-04': 'present',
-    '2024-12-05': 'absent',
-    '2024-12-06': 'present',
-    '2024-12-07': 'present',
-    '2024-12-08': 'present',
-    '2024-12-09': 'present',
-    '2024-12-10': 'half-day',
-    '2024-12-11': 'present',
-    '2024-12-12': 'present',
-    '2024-12-13': 'late',
-    '2024-12-14': 'present',
-    '2024-12-15': 'present',
-    '2024-12-16': 'present',
-    '2024-12-17': 'present',
-    '2024-12-18': 'absent',
-    '2024-12-19': 'present',
-    '2024-12-20': 'present',
-    '2024-12-21': 'present',
-    '2024-12-22': 'present',
-    '2024-12-23': 'present',
-    '2024-12-24': 'late',
-    '2024-12-25': 'present',
-    '2024-12-26': 'present',
-    '2024-12-27': 'present',
-    '2024-12-28': 'present',
-    '2024-12-29': 'present',
-    '2024-12-30': 'present',
-    '2024-12-31': 'present',
+    // 3 Late
+    '2025-06-03': 'late',
+    '2025-06-13': 'late',
+    '2025-06-20': 'late',
+
+    // 2 Absent
+    '2025-06-05': 'absent',
+    '2025-06-18': 'absent',
+
+    // 25 Present
+    '2025-06-01': 'present',
+    '2025-06-02': 'present',
+    '2025-06-04': 'present',
+    '2025-06-06': 'present',
+    '2025-06-07': 'present',
+    '2025-06-08': 'present',
+    '2025-06-09': 'present',
+    '2025-06-10': 'present',
+    '2025-06-11': 'present',
+    '2025-06-12': 'present',
+    '2025-06-14': 'present',
+    '2025-06-15': 'present',
+    '2025-06-16': 'present',
+    '2025-06-17': 'present',
+    '2025-06-19': 'present',
+    '2025-06-21': 'present',
+    '2025-06-22': 'present',
+    '2025-06-23': 'present',
+    '2025-06-24': 'present',
+    '2025-06-25': 'present',
+    '2025-06-26': 'present',
+    '2025-06-27': 'present',
+    '2025-06-28': 'present',
+    '2025-06-29': 'present',
+    '2025-06-30': 'present',
   };
 
   const handleDateChange = (date: Date) => {
@@ -135,58 +139,34 @@ const Attendance: React.FC = () => {
         {/* Selected Date Details */}
         <div className="bg-white shadow rounded-lg p-6">
           <h3 className="text-lg font-medium text-gray-900 mb-4">
-            Details for {format(selectedDate, 'MMMM dd, yyyy')}
+            Details for This Week
           </h3>
-          
-          <div className="space-y-4">
-            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-              <div className="flex items-center">
-                <div className="h-8 w-8 rounded-full bg-gray-300 flex items-center justify-center">
-                  <span className="text-sm font-medium text-gray-700">N</span>
-                </div>
-                <div className="ml-3">
-                  <p className="text-sm font-medium text-gray-900">Nikhil Pant</p>
-                  <p className="text-sm text-gray-500">NK2710IN</p>
-                </div>
-              </div>
-              <div className="text-right">
-                <p className="text-sm font-medium text-gray-900">09:00 AM</p>
-                <p className="text-sm text-gray-500">Check In</p>
-              </div>
-            </div>
-
-            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-              <div className="flex items-center">
-                <div className="h-8 w-8 rounded-full bg-gray-300 flex items-center justify-center">
-                  <span className="text-sm font-medium text-gray-700">J</span>
-                </div>
-                <div className="ml-3">
-                  <p className="text-sm font-medium text-gray-900">John Doe</p>
-                  <p className="text-sm text-gray-500">EMP001</p>
-                </div>
-              </div>
-              <div className="text-right">
-                <p className="text-sm font-medium text-gray-900">09:15 AM</p>
-                <p className="text-sm text-gray-500">Check In</p>
-              </div>
-            </div>
-
-            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-              <div className="flex items-center">
-                <div className="h-8 w-8 rounded-full bg-gray-300 flex items-center justify-center">
-                  <span className="text-sm font-medium text-gray-700">J</span>
-                </div>
-                <div className="ml-3">
-                  <p className="text-sm font-medium text-gray-900">Jane Smith</p>
-                  <p className="text-sm text-gray-500">EMP002</p>
-                </div>
-              </div>
-              <div className="text-right">
-                <p className="text-sm font-medium text-gray-900">08:45 AM</p>
-                <p className="text-sm text-gray-500">Check In</p>
-              </div>
-            </div>
-          </div>
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {Array.from({ length: 7 })
+                .map((_, i) => subDays(selectedDate, 6 - i))
+                .filter(date => {
+                  const day = date.getDay();
+                  return day !== 0 && day !== 6; // Exclude Sunday (0) and Saturday (6)
+                })
+                .map(date => (
+                  <tr key={date.toISOString()}>
+                    <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-900">{format(date, 'MMMM dd, yyyy')}</td>
+                    <td className="px-4 py-2 whitespace-nowrap">
+                      <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                        Present
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
         </div>
       </div>
 
@@ -235,30 +215,6 @@ const Attendance: React.FC = () => {
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
                     Present
-                  </span>
-                </td>
-              </tr>
-              <tr>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="flex items-center">
-                    <div className="h-8 w-8 rounded-full bg-gray-300 flex items-center justify-center">
-                      <span className="text-sm font-medium text-gray-700">J</span>
-                    </div>
-                    <div className="ml-4">
-                      <div className="text-sm font-medium text-gray-900">John Doe</div>
-                      <div className="text-sm text-gray-500">EMP001</div>
-                    </div>
-                  </div>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  09:15 AM
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  06:00 PM
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                    Late
                   </span>
                 </td>
               </tr>
