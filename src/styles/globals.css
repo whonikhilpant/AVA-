@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles */
+body {
+  @apply font-sans text-gray-900;
+  background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 40%, #ffecd2 100%);
+  min-height: 100vh;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Modern card and button styles */
+.card {
+  @apply bg-white rounded-2xl shadow-lg p-6 border border-gray-100;
+}
+.btn-primary {
+  @apply bg-gradient-to-r from-primary-500 via-accent-orange to-accent-blue text-white font-bold py-2 px-6 rounded-full shadow hover:opacity-90 transition;
+} 
