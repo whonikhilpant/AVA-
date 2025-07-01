@@ -6,6 +6,7 @@ import Dashboard from './pages/Dashboard';
 import Attendance from './pages/Attendance';
 import Reports from './pages/Reports';
 import Documents from './pages/Documents';
+import Leads from './pages/Leads';
 import Layout from './components/Layout/Layout';
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -29,6 +30,7 @@ const AppRoutes: React.FC = () => {
         <Route path="attendance" element={<Attendance />} />
         <Route path="reports" element={<Reports />} />
         <Route path="documents" element={<Documents />} />
+        <Route path="leads" element={<Leads />} />
       </Route>
     </Routes>
   );

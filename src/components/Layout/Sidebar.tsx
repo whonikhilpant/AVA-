@@ -18,7 +18,7 @@ const navigation = [
   { name: 'Reports', href: '/reports', icon: FileText },
   { name: 'Documents', href: '/documents', icon: FolderOpen },
   { name: 'Leads', href: '/leads', icon: Users },
-  { name: 'Email Log', href: '/email-log', icon: Mail },
+  
 ];
 
 const Sidebar: React.FC = () => {
