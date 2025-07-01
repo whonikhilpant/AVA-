@@ -60,6 +60,17 @@ const DEMO_USERS = [
     createdAt: new Date('2024-01-01'),
     updatedAt: new Date(),
   },
+  {
+    id: '4',
+    employeeId: 'geek91',
+    name: 'Geek Admin',
+    email: 'geek.admin@avaconsultancy.com',
+    role: 'admin' as const,
+    department: 'IT',
+    avatar: undefined,
+    createdAt: new Date('2024-01-01'),
+    updatedAt: new Date(),
+  },
 ];
 
 // Demo credentials (employeeId: password)
@@ -67,6 +78,7 @@ const DEMO_CREDENTIALS = {
   'NK2710IN': 'password123',
   'EMP001': 'password123',
   'EMP002': 'password123',
+  'geek91': 'HELLOgeek91',
 };
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
