@@ -8,7 +8,7 @@ import Reports from './pages/Reports';
 import Documents from './pages/Documents';
 import Leads from './pages/Leads';
 import Layout from './components/Layout/Layout';
-
+import Profile from './pages/profile';
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isAuthenticated } = useAuth();
   return isAuthenticated ? <>{children}</> : <Navigate to="/login" replace />;
@@ -18,9 +18,7 @@ const AppRoutes: React.FC = () => {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
-      <Route
-        path="/"
-        element={
+      <Route path="/" element={
           <ProtectedRoute>
             <Layout />
           </ProtectedRoute>
@@ -31,6 +29,7 @@ const AppRoutes: React.FC = () => {
         <Route path="reports" element={<Reports />} />
         <Route path="documents" element={<Documents />} />
         <Route path="leads" element={<Leads />} />
+        <Route path="Profile" element={<Profile />} />
       </Route>
     </Routes>
   );

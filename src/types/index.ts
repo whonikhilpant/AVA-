@@ -102,7 +102,7 @@ export interface DashboardStats {
   attendance: AttendanceStats;
   totalLeads: number;
   activeLeads: number;
-  totalEvents: number;
+  activeEvents: number;
   upcomingEvents: number;
   emailsSent: number;
   emailsRead: number;

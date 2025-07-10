@@ -1,11 +1,10 @@
 import React from 'react';
 import { useQuery } from 'react-query';
-import { 
-  Users, 
-  Calendar, 
-  Mail, 
-  TrendingUp,
-  Clock,
+import { useAuth } from '../context/AuthContext';
+import {
+  Users,
+  Calendar,
+  Mail,
   CheckCircle,
   AlertCircle
 } from 'lucide-react';
@@ -14,11 +13,20 @@ import { DashboardStats } from '../types';
 import { dashboardService } from '../services/dashboardService';
 
 const Dashboard: React.FC = () => {
-  const { data: stats, isLoading, error } = useQuery<DashboardStats>(
+  const { user } = useAuth();
+  console.log("📌 Dashboard - employeeId:", user?.employeeId);
+  const employeeName = localStorage.getItem('employee_name');
+
+  const {
+    data: stats,
+    isLoading,
+    error
+  } = useQuery<DashboardStats>(
     'dashboardStats',
     dashboardService.getStats,
     {
-      refetchInterval: 30000, // Refetch every 30 seconds
+      refetchInterval: 30000,
+      enabled: !!user?.employeeId
     }
   );
 
@@ -30,7 +38,7 @@ const Dashboard: React.FC = () => {
     );
   }
 
-  if (error) {
+  if (error || !stats) {
     return (
       <div className="text-center py-12">
         <AlertCircle className="mx-auto h-12 w-12 text-red-400" />
@@ -42,82 +50,65 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Page Header */}
       <div>
         <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
         <p className="mt-1 text-sm text-gray-500">
-          Welcome back! Here's what's happening today.
+          Welcome back <strong>{employeeName}</strong>
         </p>
       </div>
 
-      {/* Stats Grid */}
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
-          title="Attendance"
-          value={`${stats?.attendance.attendancePercentage || 0}%`}
-          icon={CheckCircle}
-          color="green"
-          change={{
-            value: 2.5,
-            isPositive: true,
-          }}
-        />
+  title="Attendance"
+  value={`${stats?.attendance?.attendancePercentage || 0}%`}
+  icon={CheckCircle}
+  color="green"
+/>
         <StatCard
-          title="Total Leads"
-          value={stats?.totalLeads || 0}
+          title="Leads in 30 days"
+          value={stats.totalLeads || 0}
           icon={Users}
           color="blue"
-          change={{
-            value: 12,
-            isPositive: true,
-          }}
         />
         <StatCard
-          title="Active Events"
-          value={stats?.upcomingEvents || 0}
+          title="Events in 30 days"
+          value={stats.activeEvents || 0}
           icon={Calendar}
           color="purple"
         />
         <StatCard
-          title="Emails Sent"
-          value={stats?.emailsSent || 0}
+          title="Sent Mails in 30 days"
+          value={stats.emailsSent || 0}
           icon={Mail}
           color="yellow"
-          change={{
-            value: 8,
-            isPositive: false,
-          }}
         />
       </div>
 
-      {/* Charts and Activity Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Attendance Chart */}
         <div className="card">
           <h3 className="text-lg font-medium text-gray-900 mb-4">Attendance Overview</h3>
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <span className="text-sm text-gray-500">Present Days</span>
               <span className="text-sm font-medium text-gray-900">
-                {stats?.attendance.presentDays || 0}
+                {stats?.attendance?.presentDays || 0}
               </span>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-sm text-gray-500">Absent Days</span>
               <span className="text-sm font-medium text-gray-900">
-                {stats?.attendance.absentDays || 0}
+                {stats?.attendance?.absentDays || 0}
               </span>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-sm text-gray-500">Late Days</span>
               <span className="text-sm font-medium text-gray-900">
-                {stats?.attendance.lateDays || 0}
+                {stats?.attendance?.lateDays || 0}
               </span>
             </div>
           </div>
         </div>
 
-        {/* Recent Activity */}
         <div className="card">
           <h3 className="text-lg font-medium text-gray-900 mb-4">Recent Activity</h3>
           <div className="space-y-4">
@@ -161,4 +152,4 @@ const Dashboard: React.FC = () => {
   );
 };
 
-export default Dashboard; 
+export default Dashboard;

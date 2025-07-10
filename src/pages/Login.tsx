@@ -34,22 +34,22 @@ const Login: React.FC = () => {
     }
   };
 
-  const fillDemoCredentials = (employeeId: string) => {
-    const form = document.querySelector('form');
-    if (form) {
-      const employeeIdInput = form.querySelector('input[name="employeeId"]') as HTMLInputElement;
-      const passwordInput = form.querySelector('input[name="password"]') as HTMLInputElement;
+  // const fillDemoCredentials = (employeeId: string) => {
+  //   const form = document.querySelector('form');
+  //   if (form) {
+  //     const employeeIdInput = form.querySelector('input[name="employeeId"]') as HTMLInputElement;
+  //     const passwordInput = form.querySelector('input[name="password"]') as HTMLInputElement;
       
-      if (employeeIdInput && passwordInput) {
-        employeeIdInput.value = employeeId;
-        passwordInput.value = 'password123';
-      }
-    }
-  };
+  //     if (employeeIdInput && passwordInput) {
+  //       employeeIdInput.value = employeeId;
+  //       passwordInput.value = 'password123';
+  //     }
+  //   }
+  // };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
+    <div className="min-h-screen flex items-center justify-center bg-white py-10 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8 bg-gray-200 p-10 rounded-md">
         <div className="flex flex-col items-center">
           {isAuthenticated ? (
             <Link to="/">
@@ -58,10 +58,10 @@ const Login: React.FC = () => {
           ) : (
             <img src={logo} alt="Company Logo" className="h-20 w-20 mb-4 object-contain" />
           )}
-          <div className="mx-auto h-12 w-12 bg-blue-600 rounded-lg flex items-center justify-center">
+          {/* <div className="mx-auto h-12 w-12 bg-blue-600 rounded-lg flex items-center justify-center">
             <Lock className="h-8 w-8 text-white" />
-          </div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+          </div> */}
+          <h2 className="mt-6 text-center text-xl font-extrabold text-gray-900">
             Sign in to AVA CRM
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
@@ -70,7 +70,7 @@ const Login: React.FC = () => {
         </div>
         
         {/* Demo Credentials Info */}
-        <div className="bg-blue-50 border border-blue-200 rounded-md p-4">
+        {/* <div className="bg-blue-50 border border-blue-200 rounded-md p-4">
           <div className="flex items-start">
             <Info className="h-5 w-5 text-blue-400 mt-0.5 mr-2 flex-shrink-0" />
             <div className="flex-1">
@@ -100,7 +100,7 @@ const Login: React.FC = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
         
         <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
           <div className="space-y-4">
@@ -116,6 +116,7 @@ const Login: React.FC = () => {
                 <input
                   id="employeeId"
                   type="text"
+                  autoComplete="off"
                   {...register('employeeId', { required: 'Employee ID is required' })}
                   className="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                   placeholder="Enter your employee ID"
@@ -137,6 +138,7 @@ const Login: React.FC = () => {
                 </div>
                 <input
                   id="password"
+                  autoComplete="off"
                   type={showPassword ? 'text' : 'password'}
                   {...register('password', { required: 'Password is required' })}
                   className="appearance-none block w-full pl-10 pr-10 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"

@@ -1,161 +1,77 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { User, LoginCredentials, AuthResponse } from '../types';
-import { authService } from '../services/authService';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { LoginCredentials, User } from '../types';
 
+// Define the context type
 interface AuthContextType {
-  user: User | null;
-  isAuthenticated: boolean;
-  isLoading: boolean;
   login: (credentials: LoginCredentials) => Promise<void>;
   logout: () => void;
-  updateUser: (userData: Partial<User>) => void;
+  isAuthenticated: boolean;
+  user: User | null;
 }
 
+// Create context
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
-};
-
-interface AuthProviderProps {
-  children: ReactNode;
-}
-
-// Demo user data
-const DEMO_USERS = [
-  {
-    id: '1',
-    employeeId: 'NK2710IN',
-    name: 'Nikhil Pant',
-    email: 'nikhil.pant@avaconsultancy.com',
-    role: 'manager' as const,
-    department: 'Sales',
-    avatar: undefined,
-    createdAt: new Date('2024-01-01'),
-    updatedAt: new Date(),
-  },
-  {
-    id: '2',
-    employeeId: 'EMP001',
-    name: 'John Doe',
-    email: 'john.doe@avaconsultancy.com',
-    role: 'employee' as const,
-    department: 'Marketing',
-    avatar: undefined,
-    createdAt: new Date('2024-01-01'),
-    updatedAt: new Date(),
-  },
-  {
-    id: '3',
-    employeeId: 'EMP002',
-    name: 'Jane Smith',
-    email: 'jane.smith@avaconsultancy.com',
-    role: 'admin' as const,
-    department: 'IT',
-    avatar: undefined,
-    createdAt: new Date('2024-01-01'),
-    updatedAt: new Date(),
-  },
-];
-
-// Demo credentials (employeeId: password)
-const DEMO_CREDENTIALS = {
-  'NK2710IN': 'password123',
-  'EMP001': 'password123',
-  'EMP002': 'password123',
-};
-
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const initializeAuth = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        const savedUser = localStorage.getItem('user');
-        
-        if (token && savedUser) {
-          const userData = JSON.parse(savedUser);
-          setUser(userData);
-        }
-      } catch (error) {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    initializeAuth();
-  }, []);
+// Provider component
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [user, setUser] = useState<User | null>(() => {
+    const storedUser = localStorage.getItem('user');
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
 
   const login = async (credentials: LoginCredentials) => {
-    try {
-      setIsLoading(true);
-      
-      // Demo login logic
-      const demoPassword = DEMO_CREDENTIALS[credentials.employeeId as keyof typeof DEMO_CREDENTIALS];
-      
-      if (demoPassword && credentials.password === demoPassword) {
-        const userData = DEMO_USERS.find(user => user.employeeId === credentials.employeeId);
-        
-        if (userData) {
-          const mockToken = `demo_token_${Date.now()}`;
-          const mockResponse: AuthResponse = {
-            user: userData,
-            token: mockToken,
-          };
-          
-          localStorage.setItem('token', mockToken);
-          localStorage.setItem('user', JSON.stringify(userData));
-          setUser(userData);
-          return;
-        }
-      }
-      
-      // If demo login fails, try actual API
-      try {
-        const response: AuthResponse = await authService.login(credentials);
-        localStorage.setItem('token', response.token);
-        localStorage.setItem('user', JSON.stringify(response.user));
-        setUser(response.user);
-      } catch (apiError) {
-        throw new Error('Invalid credentials. Please try again.');
-      }
-    } catch (error) {
-      throw error;
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const response = await fetch('https://leadinfo.site/employee/login.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(credentials),
+  });
+
+  const json = await response.json();
+
+  console.log("🔐 Login response JSON:", json); // <-- Log the response
+
+  if (!response.ok || !json.success) {
+    throw new Error(json.message || 'Login failed');
+  }
+  console.log("🔐 Login Response:");
+console.log("Success:", json.success);
+console.log("Message:", json.message);
+console.log("Employee ID:", json.data.employeeId);
+console.log("Employee Name:", json.data.employee_name);
+console.log("Role:", json.data.role);
+console.log("Token:", json.token);
+  // Save user to localStorage
+  localStorage.setItem('user', JSON.stringify(json.data));
+  localStorage.setItem('employee_name', json.data.employee_name);
+  localStorage.setItem('employeeId', json.data.employeeId);
+  const employeeName = localStorage.getItem('employee_name');
+  console.log(employeeName);
+  // localStorage.setItem('token', json.token);
+
+  setUser(json.data); // Update context
+};
+
 
   const logout = () => {
-    localStorage.removeItem('token');
     localStorage.removeItem('user');
     setUser(null);
+    window.location.href = '/CRM'; // Optional: Redirect after logout
   };
 
-  const updateUser = (userData: Partial<User>) => {
-    if (user) {
-      const updatedUser = { ...user, ...userData };
-      setUser(updatedUser);
-      localStorage.setItem('user', JSON.stringify(updatedUser));
-    }
-  };
+  const isAuthenticated = !!user;
 
-  const value: AuthContextType = {
-    user,
-    isAuthenticated: !!user,
-    isLoading,
-    login,
-    logout,
-    updateUser,
-  };
+  return (
+    <AuthContext.Provider value={{ login, logout, isAuthenticated, user }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-}; 
+// Hook to use AuthContext
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) throw new Error('useAuth must be used within AuthProvider');
+  return context;
+};

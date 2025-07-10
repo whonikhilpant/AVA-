@@ -7,7 +7,8 @@ import {
   FolderOpen, 
   LogOut,
   Users,
-  Mail
+  Mail,
+  User
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import logo from '../../assets/logo.png';
@@ -18,6 +19,7 @@ const navigation = [
   { name: 'Reports', href: '/reports', icon: FileText },
   { name: 'Documents', href: '/documents', icon: FolderOpen },
   { name: 'Leads', href: '/leads', icon: Users },
+  { name: 'Profile', href: '/profile', icon: User }, 
   
 ];
 

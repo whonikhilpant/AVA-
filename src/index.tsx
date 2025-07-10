@@ -19,11 +19,12 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-  <React.StrictMode>
+  
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <BrowserRouter basename="/CRM">
+  <App />
+</BrowserRouter>
+
     </QueryClientProvider>
-  </React.StrictMode>
+  
 ); 

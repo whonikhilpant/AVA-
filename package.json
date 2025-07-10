@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Modern CRM web application for office management",
   "private": true,
+  "homepage": "http://leadinfo.site/CRM",
   "dependencies": {
     "@types/node": "^20.0.0",
     "@types/react": "^18.2.0",
