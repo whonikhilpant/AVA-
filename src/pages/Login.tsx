@@ -62,7 +62,7 @@ const Login: React.FC = () => {
             <Lock className="h-8 w-8 text-white" />
           </div> */}
           <h2 className="mt-6 text-center text-xl font-extrabold text-gray-900">
-            Sign in to AVA CRM
+            Sign in to AVA
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
             Enter your credentials to access your account
