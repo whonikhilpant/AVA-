@@ -9,6 +9,7 @@ import Documents from './pages/Documents';
 import Leads from './pages/Leads';
 import Layout from './components/Layout/Layout';
 import Profile from './pages/profile';
+import EmailScheduler from './pages/EmailScheduler';
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isAuthenticated } = useAuth();
   return isAuthenticated ? <>{children}</> : <Navigate to="/login" replace />;
@@ -30,6 +31,7 @@ const AppRoutes: React.FC = () => {
         <Route path="documents" element={<Documents />} />
         <Route path="leads" element={<Leads />} />
         <Route path="Profile" element={<Profile />} />
+        <Route path="EmailScheduler" element={<EmailScheduler />} />
       </Route>
     </Routes>
   );

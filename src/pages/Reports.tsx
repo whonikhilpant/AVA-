@@ -18,7 +18,6 @@ const Reports: React.FC = () => {
     try {
       const user = JSON.parse(localStorage.getItem('user') || '{}');
       const res = await fetch(`https://leadinfo.site/employee/get_reports.php?employeeId=${user.employeeId}`);
-
       const json = await res.json();
       if (json.success && Array.isArray(json.data)) {
         setReports(json.data);
@@ -63,7 +62,7 @@ const Reports: React.FC = () => {
       if (response.ok && result.success) {
         setMessage('✅ Report submitted successfully!');
         setReportData({ events: '', mails: '', leads: '' });
-        fetchReports(); // refresh the report list
+        fetchReports();
       } else {
         setMessage(`❌ ${result.message || 'Submission failed'}`);
       }
@@ -75,65 +74,44 @@ const Reports: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-4 md:p-6">
       {/* Page Header */}
       <div>
         <h1 className="text-2xl font-bold text-gray-900">Reports</h1>
-        <p className="mt-1 text-sm text-gray-500">
-          Generate and view various reports and analytics.
-        </p>
+        <p className="mt-1 text-sm text-gray-500">Generate and view various reports and analytics.</p>
       </div>
 
       {/* Submit Report Section */}
-      <div className="bg-white shadow rounded-lg p-5">
-        <div className="px-6 py-4 border-b border-gray-200">
-          <h3 className="text-lg font-medium text-gray-900">Submit Report Data</h3>
+      <div className="bg-white shadow sm:w-28 md:w-full rounded-lg p-4 space-y-4">
+        <h2 className="text-lg font-semibold text-gray-800 border-b pb-2">Submit Report Data</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <input
+            type="number"
+            placeholder="Events"
+            className="border rounded px-3 py-2 w-full"
+            value={reportData.events}
+            onChange={e => handleInputChange('events', e.target.value)}
+          />
+          <input
+            type="number"
+            placeholder="No of Mails"
+            className="border rounded px-3 py-2 w-full"
+            value={reportData.mails}
+            onChange={e => handleInputChange('mails', e.target.value)}
+          />
+          <input
+            type="number"
+            placeholder="No of Leads"
+            className="border rounded px-3 py-2 w-full"
+            value={reportData.leads}
+            onChange={e => handleInputChange('leads', e.target.value)}
+          />
         </div>
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Events</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">No of Mails</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">No of Leads</th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              <tr>
-                <td className="px-6 py-4">
-                  <input
-                    type="number"
-                    className="border rounded px-2 py-1 w-full"
-                    value={reportData.events}
-                    onChange={e => handleInputChange('events', e.target.value)}
-                  />
-                </td>
-                <td className="px-6 py-4">
-                  <input
-                    type="number"
-                    className="border rounded px-2 py-1 w-full"
-                    value={reportData.mails}
-                    onChange={e => handleInputChange('mails', e.target.value)}
-                  />
-                </td>
-                <td className="px-6 py-4">
-                  <input
-                    type="number"
-                    className="border rounded px-2 py-1 w-full"
-                    value={reportData.leads}
-                    onChange={e => handleInputChange('leads', e.target.value)}
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div className="mt-4 flex justify-center">
+        <div className="text-center">
           <button
-            type="button"
             onClick={handleSubmit}
             disabled={isSubmitting}
-            className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition-colors font-medium disabled:opacity-50"
+            className="mt-4 bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition disabled:opacity-50 w-full sm:w-auto"
           >
             {isSubmitting ? 'Submitting...' : 'Submit'}
           </button>
@@ -144,35 +122,33 @@ const Reports: React.FC = () => {
       </div>
 
       {/* Submitted Reports Table */}
-      <div className="bg-white shadow rounded-lg p-5">
-        <div className="px-6 py-4 border-b border-gray-200">
-          <h3 className="text-lg font-medium text-gray-900">All Submitted Reports</h3>
-        </div>
+      <div className="bg-white shadow rounded-lg p-4">
+        <h2 className="text-lg font-semibold text-gray-800 border-b pb-2 mb-4">All Submitted Reports</h2>
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+          <table className="min-w-full text-sm text-left divide-y divide-gray-200">
+            <thead className="bg-gray-100 text-gray-600 uppercase text-xs">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Employee ID</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Events</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">No of Mails</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">No of Leads</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+                <th className="px-4 py-2">Employee ID</th>
+                <th className="px-4 py-2">Events</th>
+                <th className="px-4 py-2">Mails</th>
+                <th className="px-4 py-2">Leads</th>
+                <th className="px-4 py-2">Date</th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-white divide-y text-gray-800">
               {reports.length > 0 ? (
                 reports.map((report, index) => (
                   <tr key={index}>
-                    <td className="px-6 py-4 text-sm text-gray-900">{report.employeeId}</td>
-                    <td className="px-6 py-4 text-sm text-gray-900">{report.events}</td>
-                    <td className="px-6 py-4 text-sm text-gray-900">{report.mails}</td>
-                    <td className="px-6 py-4 text-sm text-gray-900">{report.leads}</td>
-                    <td className="px-6 py-4 text-sm text-gray-900">{report.submitted_at}</td>
+                    <td className="px-4 py-2">{report.employeeId}</td>
+                    <td className="px-4 py-2">{report.events}</td>
+                    <td className="px-4 py-2">{report.mails}</td>
+                    <td className="px-4 py-2">{report.leads}</td>
+                    <td className="px-4 py-2">{report.submitted_at}</td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan={4} className="text-center py-4 text-gray-500">
+                  <td colSpan={5} className="text-center py-4 text-gray-500">
                     No reports submitted yet.
                   </td>
                 </tr>

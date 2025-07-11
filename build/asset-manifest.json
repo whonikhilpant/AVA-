@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/CRM/static/css/main.dca8fd57.css",
+    "main.js": "/CRM/static/js/main.4e0eca65.js",
+    "static/media/logo.png": "/CRM/static/media/logo.39867f736bb342d8c8ef.png",
+    "index.html": "/CRM/index.html",
+    "main.dca8fd57.css.map": "/CRM/static/css/main.dca8fd57.css.map",
+    "main.4e0eca65.js.map": "/CRM/static/js/main.4e0eca65.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.dca8fd57.css",
+    "static/js/main.4e0eca65.js"
+  ]
+}

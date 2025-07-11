@@ -7,8 +7,10 @@ import {
   FolderOpen,
   LogOut,
   Users,
-  User
+  User,
+  Globe // 🌍 Add this line
 } from 'lucide-react';
+
 import { useAuth } from '../../context/AuthContext';
 import logo from '../../assets/logo.png';
 
@@ -24,7 +26,8 @@ const navigation = [
   { name: 'Reports', href: '/reports', icon: FileText },
   { name: 'Documents', href: '/documents', icon: FolderOpen },
   { name: 'Leads', href: '/leads', icon: Users },
-  { name: 'Profile', href: '/profile', icon: User }
+  { name: 'Profile', href: '/profile', icon: User },
+  { name: 'Email Schedule', href: '/EmailScheduler', icon: Globe } // ✅ Added
 ];
 
 const Sidebar: React.FC<SidebarProps> = ({ onClose }) => {
@@ -87,7 +90,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onClose }) => {
             {user?.name?.charAt(0).toUpperCase()}
           </div>
           <div>
-            <p className="text-sm font-medium text-gray-900">{user?.name}</p>
+            <p className="text-sm font-medium text-gray-900">{user?.employeeId}</p>
             <p className="text-xs text-gray-500">{user?.role}</p>
           </div>
         </div>
